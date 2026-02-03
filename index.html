@@ -89,30 +89,43 @@
 
 
     <script>
-        function yesClick() {
-            document.getElementById("result").style.display = "block";
-            startConfetti();
-        }
+       function yesClick() {
+    document.getElementById("result").style.display = "block";
+    const sound = document.getElementById("yaySound");
+    sound.volume = 0.7;
+    sound.play().catch(e => console.log("Błąd odtwarzania dźwięku:", e));
+    shootConfetti();
+}
 
-        function moveNo() {
-            const no = document.getElementById("nie");
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 50);
-            no.style.left = x + "px";
-            no.style.top = y + "px";
-        }
+// Przyciski NIE ucieka szybciej i zmienia kolor + dźwięk
+function moveNo() {
+    const no = document.getElementById("nie");
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    no.style.left = x + "px";
+    no.style.top = y + "px";
+    no.style.backgroundColor = ["#ff4d6d","#ffd166","#06d6a0","#118ab2","#f72585"][Math.floor(Math.random()*5)];
+    
+    const sound = document.getElementById("noSound");
+    sound.volume = 0.7;
+    sound.play().catch(e => console.log("Błąd odtwarzania dźwięku:", e));
+}
 
-        function startConfetti() {
-            for (let i = 0; i < 120; i++) {
-                const confetti = document.createElement("div");
-                confetti.className = "confetti";
-                confetti.style.left = Math.random() * window.innerWidth + "px";
-                confetti.style.backgroundColor =
-                    ["#ff4d6d", "#ffd166", "#06d6a0", "#118ab2"][Math.floor(Math.random() * 4)];
-                confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
-                document.body.appendChild(confetti);
-            }
-        }
+// Wystrzał konfetti z różnych miejsc ekranu
+function shootConfetti() {
+    for (let i = 0; i < 150; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.top = Math.random() * 100 + "px";
+        confetti.style.backgroundColor =
+            ["#ff4d6d", "#ffd166", "#06d6a0", "#118ab2", "#f72585"][Math.floor(Math.random()*5)];
+        confetti.style.animationDuration = (Math.random()*1 + 1) + "s";
+        confetti.style.transform = rotate(${Math.random()*360}deg);
+        document.body.appendChild(confetti);
+        setTimeout(()=>{ confetti.remove(); }, 1500);
+    }
+}
     </script>
 
 </body>
